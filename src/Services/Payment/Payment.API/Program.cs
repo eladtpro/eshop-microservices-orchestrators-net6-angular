@@ -5,11 +5,19 @@ Log.Logger = CreateSerilogLogger(configuration);
 try
 {
     Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
-    var host = BuildWebHost(configuration, args);
+
+    WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+    builder.WebHost.CaptureStartupErrors(false)
+        .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
+        .UseStartup<Startup>()
+        .UseContentRoot(Directory.GetCurrentDirectory());
+
+    builder.Host.UseSerilog();
+
+    var app = builder.Build();
 
     Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
-    host.Run();
-
+    app.Run();
     return 0;
 }
 catch (Exception ex)
@@ -22,16 +30,6 @@ finally
     Log.CloseAndFlush();
 }
 
-
-IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
-    WebHost.CreateDefaultBuilder(args)
-        .CaptureStartupErrors(false)
-        .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
-        .UseStartup<Startup>()
-        .UseContentRoot(Directory.GetCurrentDirectory())
-        .UseSerilog()
-        .Build();
-
 Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
 {
     var seqServerUrl = configuration["Serilog:SeqServerUrl"];
@@ -42,7 +40,7 @@ Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
         .Enrich.FromLogContext()
         .WriteTo.Console()
         .WriteTo.Seq(string.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
-        .WriteTo.Http(string.IsNullOrWhiteSpace(logstashUrl) ? "http://logstash:8080" : logstashUrl)
+        .WriteTo.Http(string.IsNullOrWhiteSpace(logstashUrl) ? "http://logstash:8080" : logstashUrl, 1024)
         .ReadFrom.Configuration(configuration)
         .CreateLogger();
 }

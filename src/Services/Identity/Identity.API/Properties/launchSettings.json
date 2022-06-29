@@ -20,6 +20,15 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:55105",
+      "applicationUrl": "http://localhost:5000/",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Identity.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:53693",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

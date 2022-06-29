@@ -8,6 +8,15 @@
     }
   },
   "profiles": {
+    "Microsoft.eShopOnContainers.Services.Ordering.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:55102/",
+      "applicationUrl": "http://localhost:5000/",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
@@ -16,10 +25,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Microsoft.eShopOnContainers.Services.Ordering.API": {
+    "Ordering.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:55102/",
+      "applicationUrl": "http://localhost:31295",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

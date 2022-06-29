@@ -11,7 +11,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Configuration
             {
                 new ApiResource("orders", "Orders Service"),
                 new ApiResource("basket", "Basket Service"),
-                new ApiResource("mobileshoppingagg", "Mobile Shopping Aggregator"),
+                //new ApiResource("mobileshoppingagg", "Mobile Shopping Aggregator"),
                 new ApiResource("webshoppingagg", "Web Shopping Aggregator"),
                 new ApiResource("orders.signalrhub", "Ordering Signalr Hub"),
                 new ApiResource("webhooks", "Webhooks registration Service"),
@@ -78,7 +78,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Configuration
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "orders",
                         "basket",
-                        "mobileshoppingagg",
+                        //"mobileshoppingagg",
                         "webhooks"
                     },
                     //Allow requesting refresh tokens for long lived API access
@@ -228,6 +228,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Configuration
 
                     AllowedScopes =
                     {
+                        "basket",
                         "mobileshoppingagg"
                     }
                 },

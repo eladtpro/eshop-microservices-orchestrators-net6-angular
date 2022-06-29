@@ -23,8 +23,8 @@ public class Startup
         services.AddCustomMvc(Configuration)
                 .AddCustomAuthentication(Configuration)
                 .AddDevspaces()
-                .AddHttpServices()
-                .AddGrpcServices();
+                .AddHttpServices();
+                //.AddGrpcServices();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

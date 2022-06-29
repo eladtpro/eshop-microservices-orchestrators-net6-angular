@@ -55,7 +55,8 @@
             // user clicked 'no' - send back the standard 'access_denied' response
             if (model.Button == "no")
             {
-                response = ConsentResponse.Denied;
+                await _interaction.DenyAuthorizationAsync(request, AuthorizationError.AccessDenied);
+                response = new ConsentResponse();
             }
             // user clicked 'yes' - validate the data
             else if (model.Button == "yes")
@@ -66,7 +67,7 @@
                     response = new ConsentResponse
                     {
                         RememberConsent = model.RememberConsent,
-                        ScopesConsented = model.ScopesConsented
+                        //ScopesConsented = model.ScopesConsented
                     };
                 }
                 else
@@ -99,25 +100,25 @@
 
         async Task<ConsentViewModel> BuildViewModelAsync(string returnUrl, ConsentInputModel model = null)
         {
-            var request = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            AuthorizationRequest request = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (request != null)
             {
-                var client = await _clientStore.FindEnabledClientByIdAsync(request.ClientId);
+                var client = await _clientStore.FindEnabledClientByIdAsync(request.Client.ClientId);
                 if (client != null)
                 {
-                    var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
+                    var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.Client.AllowedScopes); //HACK
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
                     {
                         return new ConsentViewModel(model, returnUrl, request, client, resources);
                     }
                     else
                     {
-                        _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
+                        _logger.LogError("No scopes matching: {0}", request.Client.AllowedScopes.Aggregate((x, y) => x + ", " + y));//HACK
                     }
                 }
                 else
                 {
-                    _logger.LogError("Invalid client id: {0}", request.ClientId);
+                    _logger.LogError("Invalid client id: {0}", request.Client.ClientId);
                 }
             }
             else

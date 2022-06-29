@@ -1,6 +1,4 @@
-﻿using IdentityServer4.Models;
-
-namespace Microsoft.eShopOnContainers.Services.Identity.API.Models.AccountViewModels
+﻿namespace Microsoft.eShopOnContainers.Services.Identity.API.Models.AccountViewModels
 {
     public record ConsentViewModel : ConsentInputModel
     {
@@ -17,7 +15,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Models.AccountViewMo
             AllowRememberConsent = client.AllowRememberConsent;
 
             IdentityScopes = resources.IdentityResources.Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
-            ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
+            ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x) || model == null)).ToArray();
         }
 
         public string ClientName { get; init; }
@@ -31,7 +29,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Models.AccountViewMo
 
     public record ScopeViewModel
     {
-        public ScopeViewModel(Scope scope, bool check)
+        public ScopeViewModel(dynamic scope, bool check) // HACK
         {
             Name = scope.Name;
             DisplayName = scope.DisplayName;

@@ -16,10 +16,19 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    "Basket.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:39834",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "Microsoft.eShopOnContainers.Services.Basket.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:55103/",
+      "applicationUrl": "http://localhost:5000/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
